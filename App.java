@@ -55,10 +55,10 @@ public class App {
             gameState = GAME_STATE.XWIN;
         } else if (gameTable.isWinningCombination("O")) {
             gameState = GAME_STATE.OWIN;
-        } else if (gameTable.getNumberOfElements("_") == 0 && !gameTable.isWinningCombination("X")
+        } else if (gameTable.getNumberOfElements() == 0 && !gameTable.isWinningCombination("X")
                 && !gameTable.isWinningCombination("O")) {
             gameState = GAME_STATE.DRAW;
-        } else if (gameTable.getNumberOfElements("_") > 0 && !gameTable.isWinningCombination("X")
+        } else if (gameTable.getNumberOfElements() > 0 && !gameTable.isWinningCombination("X")
                 && !gameTable.isWinningCombination("O")) {
             gameState = GAME_STATE.NOT_FINISHED;
         }

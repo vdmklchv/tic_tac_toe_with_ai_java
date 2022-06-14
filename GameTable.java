@@ -6,15 +6,15 @@ import java.util.List;
 
 public class GameTable {
     final int TABLE_SIZE = 3;
-    private String[][] field;
+    private final String[][] field;
 
     public GameTable() {
-        this.field = createEmptyField(TABLE_SIZE);
+        this.field = createEmptyField();
     }
 
     // CREATE EMPTY FIELD
-    private String[][] createEmptyField(int size) {
-        String[][] field = new String[size][size];
+    private String[][] createEmptyField() {
+        String[][] field = new String[TABLE_SIZE][TABLE_SIZE];
         for (String[] row: field) {
             Arrays.fill(row, "_");
         }
@@ -22,11 +22,11 @@ public class GameTable {
     }
 
     // GET NUMBER OF ELEMENTS ON BOARD
-    int getNumberOfElements(String token) {
+    int getNumberOfElements() {
         int counter = 0;
         for (String[] row: field) {
             for (String element: row) {
-                if (token.equals(element)) {
+                if ("_".equals(element)) {
                     counter++;
                 }
             }
@@ -58,10 +58,7 @@ public class GameTable {
         if (token.equals(field[0][0]) && token.equals(field[1][1]) && token.equals(field[2][2])) {
             return true;
         }
-        if (token.equals(field[2][0]) && token.equals(field[1][1]) && token.equals(field[0][2])) {
-            return true;
-        }
-        return false;
+        return token.equals(field[2][0]) && token.equals(field[1][1]) && token.equals(field[0][2]);
     }
 
     // CHECK IF CELL OCCUPIED
@@ -77,7 +74,7 @@ public class GameTable {
 
     // TODO: GET FREE CELLS COORDINATES
     List<int[]> getFreeCellCoordinates() {
-        List<int[]> freeCellCoordinates = new ArrayList();
+        List<int[]> freeCellCoordinates = new ArrayList<>();
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field.length; j++) {
                 if ("_".equals(field[i][j])) {
