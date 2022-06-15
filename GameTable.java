@@ -63,7 +63,9 @@ public class GameTable {
 
     // CHECK IF CELL OCCUPIED
     boolean isCellOccupied(int[] coordinates) {
+        Arrays.toString(coordinates);
         String cellContent = field[coordinates[0]][coordinates[1]];
+        System.out.println(cellContent);
         return "O".equals(cellContent) || "X".equals(cellContent);
     }
 

@@ -1,5 +1,6 @@
 package tictactoe;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -24,13 +25,7 @@ public class ComputerPlayer extends Player {
             // Check if combination is winning
             int[] coordinates = freeCellCoordinates.get(chosenInt);
             gameTable.placeToken(coordinates, this.getToken());
-
-            if (!gameTable.isWinningCombination(this.getToken())) {
-                return freeCellCoordinates.get(chosenInt);
-            } else {
-                gameTable.placeToken(coordinates, "_");
-                provideCoordinates(gameTable);
-            }
+            return coordinates;
         }
         return new int[] {-1, -1};
     }
