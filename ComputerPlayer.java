@@ -16,17 +16,19 @@ public class ComputerPlayer extends Player {
         if (App.gameLevel == App.GAME_LEVEL.EASY) {
             System.out.println("Making move level \"easy\"");
 
-            // GET RANDOM COORDINATE FROM FREE CELL LIST
-            int listSize = freeCellCoordinates.size();
-            Random random = new Random();
-            int chosenInt = random.nextInt(listSize);
-
-            // REPEAT IF IT IS A WINNING COMBINATION
-            // Check if combination is winning
-            int[] coordinates = freeCellCoordinates.get(chosenInt);
-            gameTable.placeToken(coordinates, this.getToken());
-            return coordinates;
+            int[] randomCoordinates = getRandomCoordinatesFromFreeCells(freeCellCoordinates);
+            return randomCoordinates;
         }
         return new int[] {-1, -1};
+    }
+
+    private int[] getRandomCoordinatesFromFreeCells(List<int[]> freeCells) {
+        // GET RANDOM COORDINATE FROM FREE CELL LIST
+        int listSize = freeCells.size();
+        Random random = new Random();
+        int chosenInt = random.nextInt(listSize);
+
+        int[] coordinates = freeCells.get(chosenInt);
+        return coordinates;
     }
 }
