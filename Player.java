@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Player {
+
     private final String token;
 
     public Player(String token) {
@@ -15,6 +16,7 @@ public class Player {
     }
 
     int[] provideCoordinates(GameTable gameTable) {
+        // TODO: fix bug with recursive call (remove it and move to App)
         Scanner sc = new Scanner(System.in);
         int coordinate_1;
         int coordinate_2;

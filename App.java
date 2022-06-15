@@ -1,9 +1,10 @@
 package tictactoe;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class App {
+
+    final static int NUMBER_OF_PLAYERS = 2;
 
     GAME_STATE gameState;
     static GAME_LEVEL gameLevel = GAME_LEVEL.EASY;
@@ -27,12 +28,6 @@ public class App {
         PLAYER1, PLAYER2
     }
 
-    enum PLAYER_TYPE {
-        HUMAN, COMPUTER
-    }
-
-
-
     void startGame() {
         setAppState(APP_STATE.ON);
 
@@ -47,27 +42,39 @@ public class App {
             } else {
                 setGameState(GAME_STATE.NOT_FINISHED);
                 GameTable gameTable = new GameTable();
-                Player player1;
-                Player player2;
-                String player_1 = command[1];
-                String player_2 = command[2];
                 activePlayer = ACTIVE_PLAYER.PLAYER1;
 
-                if ("easy".equals(player_1) && "easy".equals(player_2)) {
-                    player1 = new ComputerPlayer("X");
-                    player2 = new ComputerPlayer("O");
-                } else if ("user".equals(player_1)) {
-                    player1 = new Player("X");
-                    player2 = new ComputerPlayer("O");
-                } else {
-                    player2 = new Player("O");
-                    player1 = new ComputerPlayer("X");
-                }
+                Player[] players = createPlayers(new String[]{command[1], command[2]});
+                Player player1 = players[0];
+                Player player2 = players[1];
 
                 while (gameState == GAME_STATE.NOT_FINISHED) {
                     playGame(gameTable, player1, player2);
                 }
             }
+        }
+    }
+
+    private Player[] createPlayers(String[] options) {
+        Player[] players = new Player[NUMBER_OF_PLAYERS];
+        for (int i = 0; i < options.length; i++) {
+            String token = i == 0 ? "X" : "O";
+            players[i] = getPlayer(options[i], token);
+        }
+        return players;
+    }
+
+    private Player getPlayer(String option, String token) {
+        if ("user".equals(option)) {
+            return new Player(token);
+        }
+        if ("easy".equals(option)) {
+            return new ComputerPlayer(token, GAME_LEVEL.EASY);
+        }
+        if ("medium".equals(option)) {
+            return new ComputerPlayer(token, GAME_LEVEL.MEDIUM);
+        } else {
+            return new ComputerPlayer(token, GAME_LEVEL.HARD);
         }
     }
 
@@ -97,10 +104,10 @@ public class App {
             if (command.length != 3) {
                 return false;
             }
-            if (!"easy".equals(command[1]) && !"user".equals(command[1])) {
+            if (!"easy".equals(command[1]) && !"user".equals(command[1]) && !"medium".equals(command[1])) {
                 return false;
             }
-            if (!"easy".equals(command[2]) && !"user".equals(command[2])) {
+            if (!"easy".equals(command[2]) && !"user".equals(command[2]) && !"medium".equals(command[2])) {
                 return false;
             }
             return true;
@@ -116,8 +123,7 @@ public class App {
     }
 
     private void move(GameTable gameTable, Player player) {
-        int[] coordinates;
-        coordinates = player.provideCoordinates(gameTable);
+        int[] coordinates = player.provideCoordinates(gameTable);
         gameTable.placeToken(coordinates, player.getToken());
 
         gameTable.printField();

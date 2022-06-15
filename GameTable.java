@@ -63,9 +63,7 @@ public class GameTable {
 
     // CHECK IF CELL OCCUPIED
     boolean isCellOccupied(int[] coordinates) {
-        Arrays.toString(coordinates);
         String cellContent = field[coordinates[0]][coordinates[1]];
-        System.out.println(cellContent);
         return "O".equals(cellContent) || "X".equals(cellContent);
     }
 
@@ -74,7 +72,7 @@ public class GameTable {
         field[coordinates[0]][coordinates[1]] = token;
     }
 
-    // TODO: GET FREE CELLS COORDINATES
+    // GET FREE CELLS COORDINATES
     List<int[]> getFreeCellCoordinates() {
         List<int[]> freeCellCoordinates = new ArrayList<>();
         for (int i = 0; i < field.length; i++) {
@@ -95,5 +93,81 @@ public class GameTable {
             System.out.print(" |\n");
         }
         System.out.println("---------");
+    }
+
+    // METHOD TO CHECK POTENTIALLY WINNING COMBINATION FOR X OR O
+    int[] getWinningCoordinateFor(String token) {
+        for (int i = 0; i < field.length; i++) {
+            int count = 0;
+            int[] lastMissedCoordinate = null;
+
+            for (int j = 0; j < field.length; j++) {
+
+                if (token.equals(field[i][j])) {
+                    count++;
+                } else {
+                    lastMissedCoordinate = new int[]{i, j};
+                }
+            }
+
+            if (count == 2 && lastMissedCoordinate != null && !"O".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])
+            && !"X".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])) {
+                return lastMissedCoordinate;
+            }
+        }
+
+        for (int j = 0; j < field.length; j++) {
+            int count = 0;
+            int[] lastMissedCoordinate = null;
+            for (int i = 0; i < field.length; i++) {
+                if (token.equals(field[i][j])) {
+                    count++;
+                } else {
+                    lastMissedCoordinate = new int[]{i, j};
+                }
+            }
+
+            if (count == 2 && lastMissedCoordinate != null && !"O".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])
+                    && !"X".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])) {
+                return lastMissedCoordinate;
+            }
+        }
+
+        int count = 0;
+        int[] lastMissedCoordinate = null;
+
+        for (int i = 0, j = 0; i < field.length; i++, j++) {
+                if (token.equals(field[i][j])) {
+                    count++;
+                } else {
+                    lastMissedCoordinate = new int[]{i, j};
+                }
+
+
+            if (count == 2 && lastMissedCoordinate != null && !"O".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])
+                    && !"X".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])) {
+                return lastMissedCoordinate;
+            }
+
+        }
+
+        count = 0;
+        lastMissedCoordinate = null;
+
+        for (int i = 0, j = 2; j >= 0; i++, j--) {
+
+                if (token.equals(field[i][j])) {
+                    count++;
+                } else {
+                    lastMissedCoordinate = new int[]{i, j};
+                }
+
+
+            if (count == 2 && lastMissedCoordinate != null && !"O".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])
+                    && !"X".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])) {
+                return lastMissedCoordinate;
+            }
+        }
+        return null;
     }
 }
