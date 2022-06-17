@@ -40,4 +40,11 @@ public class Player {
             }
         }
     }
+
+    void move(GameTable gameTable, Screen screen) {
+        int[] coordinates = provideCoordinates(gameTable);
+        gameTable.placeToken(coordinates, getToken());
+
+        screen.printField(gameTable.getField());
+    }
 }

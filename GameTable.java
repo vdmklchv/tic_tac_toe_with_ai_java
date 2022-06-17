@@ -33,6 +33,10 @@ public class GameTable {
         }
         return counter;
     }
+    
+    String[][] getField() {
+        return this.field;
+    }
 
     // CHECK IF BOARD HAS WINNING COMBINATION
     boolean isWinningCombination(String token) {
@@ -83,16 +87,6 @@ public class GameTable {
             }
         }
         return freeCellCoordinates;
-    }
-
-    void printField() {
-        System.out.println("---------");
-        for (String[] row: field) {
-            System.out.print("| ");
-            System.out.print(String.join(" ", row));
-            System.out.print(" |\n");
-        }
-        System.out.println("---------");
     }
 
     // METHOD TO CHECK POTENTIALLY WINNING COMBINATION FOR X OR O

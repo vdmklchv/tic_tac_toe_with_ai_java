@@ -2,7 +2,7 @@ package tictactoe;
 
 public class Main {
     public static void main(String[] args) {
-        App app = new App();
-        app.startGame();
+        TicTacGame ticTacGame = new TicTacGame();
+        ticTacGame.startGame();
     }
 }
