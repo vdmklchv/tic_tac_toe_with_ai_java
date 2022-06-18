@@ -73,7 +73,7 @@ public class TicTacGame {
             return new Options(commandArray[0], commandArray[1], commandArray[2]);
         }
     }
-
+    // TODO make it accept options object
     private boolean isCommandValid(String[] command) {
         if ("exit".equals(command[0])) {
             return true;
@@ -84,10 +84,12 @@ public class TicTacGame {
             if (command.length != 3) {
                 return false;
             }
-            if (!"easy".equals(command[1]) && !"user".equals(command[1]) && !"medium".equals(command[1])) {
+            if (!"easy".equals(command[1]) && !"user".equals(command[1]) && !"medium".equals(command[1])
+            && !"hard".equals(command[1])) {
                 return false;
             }
-            return "easy".equals(command[2]) || "user".equals(command[2]) || "medium".equals(command[2]);
+            return "easy".equals(command[2]) || "user".equals(command[2]) || "medium".equals(command[2])
+                    || "hard".equals(command[2]);
         }
     }
 

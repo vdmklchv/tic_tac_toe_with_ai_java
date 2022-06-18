@@ -16,7 +16,6 @@ public class HumanPlayer implements Player {
     }
 
     public Coordinate provideCoordinates(GameTable gameTable) {
-        // TODO: fix bug with recursive call (remove it and move to App)
         Scanner sc = new Scanner(System.in);
         int coordinate_1;
         int coordinate_2;

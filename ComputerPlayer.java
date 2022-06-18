@@ -34,8 +34,58 @@ public class ComputerPlayer extends HumanPlayer implements Player {
             }
 
             return gameTable.getRandomCoordinatesFromFreeCells(freeCellCoordinates);
+        } else if (this.gameLevel == GAME_LEVEL.HARD) {
+            // IMPLEMENT HARD AI
+            return getBestMoveMinimax(gameTable);
         }
         return new Coordinate(-1, -1);
+    }
+    Coordinate getBestMoveMinimax(GameTable gameTable) {
+        List<Coordinate> freeCells = gameTable.getFreeCellCoordinates();
+        int bestScore = Integer.MIN_VALUE;
+        Coordinate bestMove = null;
+        for (Coordinate cell: freeCells) {
+            gameTable.setCellContents(cell, getToken());
+            int score = minimax(gameTable, false);
+            gameTable.setCellContents(cell, "_");
+            if (score > bestScore) {
+                bestMove = cell;
+                bestScore = score;
+            }
+        }
+        return bestMove;
+    }
+    int minimax(GameTable gameTable, boolean isMaximizing) {
+        List<Coordinate> freeCells = gameTable.getFreeCellCoordinates();
+        int bestScore;
+        String currentPlayerToken = getToken();
+        String anotherPlayerToken = "X".equals(currentPlayerToken) ? "O" : "X";
+        if (gameTable.isWinningCombination(currentPlayerToken)) {
+            return 1;
+        } else if (gameTable.isWinningCombination(anotherPlayerToken)) {
+            return -1;
+        } else if (!gameTable.isWinningCombination("X") && !gameTable.isWinningCombination("O")
+            && gameTable.getFreeCellCoordinates().size() == 0) {
+            return 0;
+        }
+        if (isMaximizing) {
+            bestScore = Integer.MIN_VALUE;
+            for (Coordinate cell: freeCells) {
+                gameTable.setCellContents(cell, currentPlayerToken);
+                int score = minimax(gameTable, false);
+                gameTable.setCellContents(cell, "_");
+                bestScore = Math.max(score, bestScore);
+            }
+        } else {
+            bestScore = Integer.MAX_VALUE;
+            for (Coordinate cell: freeCells) {
+                gameTable.setCellContents(cell, anotherPlayerToken);
+                int score = minimax(gameTable, true);
+                gameTable.setCellContents(cell, "_");
+                bestScore = Math.min(score, bestScore);
+            }
+        }
+        return bestScore;
     }
 
 }

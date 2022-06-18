@@ -38,6 +38,10 @@ public class GameTable {
     private String getCellContents(Coordinate coordinate) {
         return field[coordinate.getRow()][coordinate.getColumn()];
     }
+
+    void setCellContents(Coordinate coordinate, String token) {
+        field[coordinate.getRow()][coordinate.getColumn()] = token;
+    }
     
     String[][] getField() {
         return this.field;
@@ -113,19 +117,19 @@ public class GameTable {
     Coordinate getWinningCoordinateFor(String token) {
         for (int i = 0; i < field.length; i++) {
             int count = 0;
-            Coordinate lastMissedCoordinate = null;
+            Coordinate lastEmptyCoordinate = null;
 
             for (int j = 0; j < field.length; j++) {
 
                 if (token.equals(field[i][j])) {
                     count++;
                 } else {
-                    lastMissedCoordinate = new Coordinate(i, j);
+                    lastEmptyCoordinate = new Coordinate(i, j);
                 }
             }
 
-            if (isCoordinateWinning(count, lastMissedCoordinate)) {
-                return lastMissedCoordinate;
+            if (isCoordinateWinning(count, lastEmptyCoordinate)) {
+                return lastEmptyCoordinate;
             }
         }
 
