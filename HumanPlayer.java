@@ -29,10 +29,6 @@ public class HumanPlayer implements Player {
                     System.out.println("Coordinates should be from 1 to 3!");
                     continue;
                 }
-                while (gameTable.isCellOccupied(new int[] {coordinate_1 - 1, coordinate_2 - 1})) {
-                    System.out.println("This cell is occupied! Choose another one!");
-                    provideCoordinates(gameTable);
-                }
                 return new int[]{coordinate_1 - 1, coordinate_2 - 1}; // - 1 to compensate for zero-based indexing
             } catch (IllegalArgumentException | InputMismatchException e) {
                 System.out.println("You should enter numbers!");
@@ -43,8 +39,11 @@ public class HumanPlayer implements Player {
 
     public void move(GameTable gameTable, Screen screen) {
         int[] coordinates = provideCoordinates(gameTable);
+        while (gameTable.isCellOccupied(new int[] {coordinates[0], coordinates[1]})) {
+            System.out.println("This cell is occupied! Choose another one!");
+            coordinates = provideCoordinates(gameTable);
+        }
         gameTable.placeToken(coordinates, getToken());
-
         screen.printField(gameTable.getField());
     }
 }
