@@ -6,7 +6,7 @@ import tictactoe.Enums.*;
 public class TicTacGame {
     APP_STATE appState;
     GAME_STATE gameState;
-    HumanPlayer activePlayer;
+    Player activePlayer;
 
 
     void startGame() {
@@ -25,9 +25,9 @@ public class TicTacGame {
 
                 setGameState(GAME_STATE.NOT_FINISHED);
                 GameTable gameTable = new GameTable();
-                HumanPlayer[] players = createPlayers(options);
-                HumanPlayer player1 = players[0];
-                HumanPlayer player2 = players[1];
+                Player[] players = createPlayers(options);
+                Player player1 = players[0];
+                Player player2 = players[1];
 
                 activePlayer = player1;
 
@@ -46,10 +46,10 @@ public class TicTacGame {
         return appState == APP_STATE.ON;
     }
 
-    private HumanPlayer[] createPlayers(Options options) {
+    private Player[] createPlayers(Options options) {
         PlayerCreator playerCreator = new PlayerCreator();
 
-        return new HumanPlayer[]{playerCreator.make(options.getOption_2(), "X"),
+        return new Player[]{playerCreator.make(options.getOption_2(), "X"),
                 playerCreator.make(options.getOption_3(), "O")};
     }
 
@@ -91,7 +91,7 @@ public class TicTacGame {
         }
     }
 
-    void playGame(GameTable gameTable, HumanPlayer player1, HumanPlayer player2, Screen screen) {
+    void playGame(GameTable gameTable, Player player1, Player player2, Screen screen) {
         screen.printField(gameTable.getField());
         while (gameNotFinished()) {
             activePlayer.move(gameTable, screen);
@@ -141,7 +141,7 @@ public class TicTacGame {
         }
     }
 
-    private void switchPlayers(HumanPlayer player1, HumanPlayer player2) {
+    private void switchPlayers(Player player1, Player player2) {
         activePlayer = activePlayer == player1 ? player2 : player1;
     }
     
