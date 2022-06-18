@@ -3,6 +3,7 @@ package tictactoe;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class GameTable {
     final int TABLE_SIZE = 3;
@@ -163,5 +164,14 @@ public class GameTable {
             }
         }
         return null;
+    }
+
+    int[] getRandomCoordinatesFromFreeCells(List<int[]> freeCells) {
+        // GET RANDOM COORDINATE FROM FREE CELL LIST
+        int listSize = freeCells.size();
+        Random random = new Random();
+        int chosenInt = random.nextInt(listSize);
+
+        return freeCells.get(chosenInt);
     }
 }

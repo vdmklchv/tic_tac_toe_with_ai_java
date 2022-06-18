@@ -1,9 +1,9 @@
 package tictactoe;
 
 class PlayerCreator {
-     Player make(String option, String token) {
+     HumanPlayer make(String option, String token) {
         if ("user".equals(option)) {
-            return new Player(token);
+            return new HumanPlayer(token);
         }
         if ("easy".equals(option)) {
             return new ComputerPlayer(token, Enums.GAME_LEVEL.EASY);

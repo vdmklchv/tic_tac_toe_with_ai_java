@@ -1,24 +1,23 @@
 package tictactoe;
 
 import java.util.List;
-import java.util.Random;
 import tictactoe.Enums.*;
 
-public class ComputerPlayer extends Player {
+public class ComputerPlayer extends HumanPlayer implements Player {
 
-    Enums.GAME_LEVEL gameLevel;
+    GAME_LEVEL gameLevel;
     public ComputerPlayer(String token, GAME_LEVEL gameLevel) {
         super(token);
         this.gameLevel = gameLevel;
     }
 
     @Override
-    int[] provideCoordinates(GameTable gameTable) {
+    public int[] provideCoordinates(GameTable gameTable) {
         List<int[]> freeCellCoordinates = gameTable.getFreeCellCoordinates();
         if (this.gameLevel == GAME_LEVEL.EASY) {
             System.out.println("Making move level \"easy\"");
 
-            return getRandomCoordinatesFromFreeCells(freeCellCoordinates);
+            return gameTable.getRandomCoordinatesFromFreeCells(freeCellCoordinates);
         } else if (this.gameLevel == GAME_LEVEL.MEDIUM) {
             // MEDIUM GAME LEVEL
             System.out.println("Making move level \"medium\"");
@@ -34,18 +33,9 @@ public class ComputerPlayer extends Player {
                 return coordinates;
             }
 
-            return getRandomCoordinatesFromFreeCells(freeCellCoordinates);
+            return gameTable.getRandomCoordinatesFromFreeCells(freeCellCoordinates);
         }
         return new int[] {-1, -1};
-    }
-
-    private int[] getRandomCoordinatesFromFreeCells(List<int[]> freeCells) {
-        // GET RANDOM COORDINATE FROM FREE CELL LIST
-        int listSize = freeCells.size();
-        Random random = new Random();
-        int chosenInt = random.nextInt(listSize);
-
-        return freeCells.get(chosenInt);
     }
 
 }
