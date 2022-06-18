@@ -1,7 +1,7 @@
 package tictactoe;
 
 class PlayerCreator {
-     HumanPlayer make(String option, String token) {
+     Player make(String option, String token) {
         if ("user".equals(option)) {
             return new HumanPlayer(token);
         }
