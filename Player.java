@@ -2,7 +2,7 @@ package tictactoe;
 
 public interface Player {
     String getToken();
-    int[] provideCoordinates(GameTable gameTable);
+    Coordinate provideCoordinates(GameTable gameTable);
     void move(GameTable gameTable, Screen screen);
 
 }

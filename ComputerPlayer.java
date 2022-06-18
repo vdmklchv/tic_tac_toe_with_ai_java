@@ -12,8 +12,8 @@ public class ComputerPlayer extends HumanPlayer implements Player {
     }
 
     @Override
-    public int[] provideCoordinates(GameTable gameTable) {
-        List<int[]> freeCellCoordinates = gameTable.getFreeCellCoordinates();
+    public Coordinate provideCoordinates(GameTable gameTable) {
+        List<Coordinate> freeCellCoordinates = gameTable.getFreeCellCoordinates();
         if (this.gameLevel == GAME_LEVEL.EASY) {
             System.out.println("Making move level \"easy\"");
 
@@ -22,20 +22,20 @@ public class ComputerPlayer extends HumanPlayer implements Player {
             // MEDIUM GAME LEVEL
             System.out.println("Making move level \"medium\"");
 
-            int[] coordinates = gameTable.getWinningCoordinateFor(getToken());
-            if (coordinates != null) {
-                return coordinates;
+            Coordinate coordinate = gameTable.getWinningCoordinateFor(getToken());
+            if (coordinate != null) {
+                return coordinate;
             }
 
             String opponentToken = "X".equals(getToken()) ? "O" : "X";
-            coordinates = gameTable.getWinningCoordinateFor(opponentToken);
-            if (coordinates != null) {
-                return coordinates;
+            coordinate = gameTable.getWinningCoordinateFor(opponentToken);
+            if (coordinate != null) {
+                return coordinate;
             }
 
             return gameTable.getRandomCoordinatesFromFreeCells(freeCellCoordinates);
         }
-        return new int[] {-1, -1};
+        return new Coordinate(-1, -1);
     }
 
 }

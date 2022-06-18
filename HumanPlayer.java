@@ -15,7 +15,7 @@ public class HumanPlayer implements Player {
         return this.token;
     }
 
-    public int[] provideCoordinates(GameTable gameTable) {
+    public Coordinate provideCoordinates(GameTable gameTable) {
         // TODO: fix bug with recursive call (remove it and move to App)
         Scanner sc = new Scanner(System.in);
         int coordinate_1;
@@ -29,7 +29,7 @@ public class HumanPlayer implements Player {
                     System.out.println("Coordinates should be from 1 to 3!");
                     continue;
                 }
-                return new int[]{coordinate_1 - 1, coordinate_2 - 1}; // - 1 to compensate for zero-based indexing
+                return new Coordinate(coordinate_1 - 1, coordinate_2 - 1); // - 1 to compensate for zero-based indexing
             } catch (IllegalArgumentException | InputMismatchException e) {
                 System.out.println("You should enter numbers!");
                 sc.nextLine();
@@ -38,12 +38,12 @@ public class HumanPlayer implements Player {
     }
 
     public void move(GameTable gameTable, Screen screen) {
-        int[] coordinates = provideCoordinates(gameTable);
-        while (gameTable.isCellOccupied(new int[] {coordinates[0], coordinates[1]})) {
+        Coordinate coordinate = provideCoordinates(gameTable);
+        while (gameTable.isCellOccupied(coordinate)) {
             System.out.println("This cell is occupied! Choose another one!");
-            coordinates = provideCoordinates(gameTable);
+            coordinate = provideCoordinates(gameTable);
         }
-        gameTable.placeToken(coordinates, getToken());
+        gameTable.placeToken(coordinate, getToken());
         screen.printField(gameTable.getField());
     }
 }

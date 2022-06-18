@@ -107,10 +107,10 @@ public class TicTacGame {
             setGameState(GAME_STATE.XWIN);
         } else if (gameTable.isWinningCombination("O")) {
             setGameState(GAME_STATE.OWIN);
-        } else if (gameTable.getNumberOfElements() == 0 && !gameTable.isWinningCombination("X")
+        } else if (gameTable.getNumberOfFreeElements() == 0 && !gameTable.isWinningCombination("X")
                 && !gameTable.isWinningCombination("O")) {
             setGameState(GAME_STATE.DRAW);
-        } else if (gameTable.getNumberOfElements() > 0 && !gameTable.isWinningCombination("X")
+        } else if (gameTable.getNumberOfFreeElements() > 0 && !gameTable.isWinningCombination("X")
                 && !gameTable.isWinningCombination("O")) {
             setGameState(GAME_STATE.NOT_FINISHED);
         }

@@ -23,7 +23,7 @@ public class GameTable {
     }
 
     // GET NUMBER OF ELEMENTS ON BOARD
-    int getNumberOfElements() {
+    int getNumberOfFreeElements() {
         int counter = 0;
         for (String[] row: field) {
             for (String element: row) {
@@ -34,6 +34,10 @@ public class GameTable {
         }
         return counter;
     }
+
+    private String getCellContents(Coordinate coordinate) {
+        return field[coordinate.getRow()][coordinate.getColumn()];
+    }
     
     String[][] getField() {
         return this.field;
@@ -42,48 +46,63 @@ public class GameTable {
     // CHECK IF BOARD HAS WINNING COMBINATION
     boolean isWinningCombination(String token) {
         // horizontal check
-        if (token.equals(field[0][0]) && token.equals(field[0][1]) && token.equals(field[0][2])) {
+        if (token.equals(getCellContents(new Coordinate(0, 0))) && token.equals(getCellContents(new Coordinate(0, 1)))
+                && token.equals(getCellContents(new Coordinate(0, 2)))) {
             return true;
         }
-        if (token.equals(field[1][0]) && token.equals(field[1][1]) && token.equals(field[1][2])) {
+        if (token.equals(getCellContents(new Coordinate(1, 0)))
+                && token.equals(getCellContents(new Coordinate(1, 1)))
+                && token.equals(getCellContents(new Coordinate(1, 2)))) {
             return true;
         }
-        if (token.equals(field[2][0]) && token.equals(field[2][1]) && token.equals(field[2][2])) {
+        if (token.equals(getCellContents(new Coordinate(2, 0)))
+                && token.equals(getCellContents(new Coordinate(2, 1)))
+                && token.equals(getCellContents(new Coordinate(2, 2)))) {
             return true;
         }
-        if (token.equals(field[0][0]) && token.equals(field[1][0]) && token.equals(field[2][0])) {
+        if (token.equals(getCellContents(new Coordinate(0, 0)))
+                && token.equals(getCellContents(new Coordinate(1, 0)))
+                && token.equals(getCellContents(new Coordinate(2, 0)))) {
             return true;
         }
-        if (token.equals(field[0][1]) && token.equals(field[1][1]) && token.equals(field[2][1])) {
+        if (token.equals(getCellContents(new Coordinate(0, 1)))
+                && token.equals(getCellContents(new Coordinate(1, 1)))
+                && token.equals(getCellContents(new Coordinate(2, 1)))) {
             return true;
         }
-        if (token.equals(field[0][2]) && token.equals(field[1][2]) && token.equals(field[2][2])) {
+        if (token.equals(getCellContents(new Coordinate(0, 2)))
+                && token.equals(getCellContents(new Coordinate(1, 2)))
+                && token.equals(getCellContents(new Coordinate(2, 2)))) {
             return true;
         }
-        if (token.equals(field[0][0]) && token.equals(field[1][1]) && token.equals(field[2][2])) {
+        if (token.equals(getCellContents(new Coordinate(0, 0)))
+                && token.equals(getCellContents(new Coordinate(1, 1)))
+                && token.equals(getCellContents(new Coordinate(2, 2)))) {
             return true;
         }
-        return token.equals(field[2][0]) && token.equals(field[1][1]) && token.equals(field[0][2]);
+        return token.equals(getCellContents(new Coordinate(2, 0)))
+                && token.equals(getCellContents(new Coordinate(1, 1)))
+                && token.equals(getCellContents(new Coordinate(0, 2)));
     }
 
     // CHECK IF CELL OCCUPIED
-    boolean isCellOccupied(int[] coordinates) {
-        String cellContent = field[coordinates[0]][coordinates[1]];
+    boolean isCellOccupied(Coordinate coordinates) {
+        String cellContent = field[coordinates.getRow()][coordinates.getColumn()];
         return "O".equals(cellContent) || "X".equals(cellContent);
     }
 
     // METHOD TO PLACE TOKEN
-    void placeToken(int[] coordinates, String token) {
-        field[coordinates[0]][coordinates[1]] = token;
+    void placeToken(Coordinate coordinate, String token) {
+        field[coordinate.getRow()][coordinate.getColumn()] = token;
     }
 
     // GET FREE CELLS COORDINATES
-    List<int[]> getFreeCellCoordinates() {
-        List<int[]> freeCellCoordinates = new ArrayList<>();
+    List<Coordinate> getFreeCellCoordinates() {
+        List<Coordinate> freeCellCoordinates = new ArrayList<>();
         for (int i = 0; i < field.length; i++) {
             for (int j = 0; j < field.length; j++) {
                 if ("_".equals(field[i][j])) {
-                    freeCellCoordinates.add(new int[] {i, j});
+                    freeCellCoordinates.add(new Coordinate(i, j));
                 }
             }
         }
@@ -91,59 +110,55 @@ public class GameTable {
     }
 
     // METHOD TO CHECK POTENTIALLY WINNING COMBINATION FOR X OR O
-    int[] getWinningCoordinateFor(String token) {
+    Coordinate getWinningCoordinateFor(String token) {
         for (int i = 0; i < field.length; i++) {
             int count = 0;
-            int[] lastMissedCoordinate = null;
+            Coordinate lastMissedCoordinate = null;
 
             for (int j = 0; j < field.length; j++) {
 
                 if (token.equals(field[i][j])) {
                     count++;
                 } else {
-                    lastMissedCoordinate = new int[]{i, j};
+                    lastMissedCoordinate = new Coordinate(i, j);
                 }
             }
 
-            if (count == 2 && lastMissedCoordinate != null && !"O".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])
-            && !"X".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])) {
+            if (isCoordinateWinning(count, lastMissedCoordinate)) {
                 return lastMissedCoordinate;
             }
         }
 
         for (int j = 0; j < field.length; j++) {
             int count = 0;
-            int[] lastMissedCoordinate = null;
+            Coordinate lastMissedCoordinate = null;
             for (int i = 0; i < field.length; i++) {
                 if (token.equals(field[i][j])) {
                     count++;
                 } else {
-                    lastMissedCoordinate = new int[]{i, j};
+                    lastMissedCoordinate = new Coordinate(i, j);
                 }
             }
 
-            if (count == 2 && lastMissedCoordinate != null && !"O".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])
-                    && !"X".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])) {
+            if (isCoordinateWinning(count, lastMissedCoordinate)) {
                 return lastMissedCoordinate;
             }
         }
 
         int count = 0;
-        int[] lastMissedCoordinate = null;
+        Coordinate lastMissedCoordinate = null;
 
         for (int i = 0, j = 0; i < field.length; i++, j++) {
                 if (token.equals(field[i][j])) {
                     count++;
                 } else {
-                    lastMissedCoordinate = new int[]{i, j};
+                    lastMissedCoordinate = new Coordinate(i, j);
                 }
 
 
-            if (count == 2 && lastMissedCoordinate != null && !"O".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])
-                    && !"X".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])) {
+            if (isCoordinateWinning(count, lastMissedCoordinate)) {
                 return lastMissedCoordinate;
             }
-
         }
 
         count = 0;
@@ -154,19 +169,23 @@ public class GameTable {
                 if (token.equals(field[i][j])) {
                     count++;
                 } else {
-                    lastMissedCoordinate = new int[]{i, j};
+                    lastMissedCoordinate = new Coordinate(i, j);
                 }
 
-
-            if (count == 2 && lastMissedCoordinate != null && !"O".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])
-                    && !"X".equals(field[lastMissedCoordinate[0]][lastMissedCoordinate[1]])) {
+            if (isCoordinateWinning(count, lastMissedCoordinate)) {
                 return lastMissedCoordinate;
             }
         }
         return null;
     }
 
-    int[] getRandomCoordinatesFromFreeCells(List<int[]> freeCells) {
+    private boolean isCoordinateWinning(int count, Coordinate coordinate) {
+        return count == 2 && coordinate != null
+                && !"O".equals(field[coordinate.getRow()][coordinate.getColumn()])
+                && !"X".equals(field[coordinate.getRow()][coordinate.getColumn()]);
+    }
+
+    Coordinate getRandomCoordinatesFromFreeCells(List<Coordinate> freeCells) {
         // GET RANDOM COORDINATE FROM FREE CELL LIST
         int listSize = freeCells.size();
         Random random = new Random();
